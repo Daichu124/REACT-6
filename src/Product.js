@@ -1,43 +1,42 @@
-import { Box, Button, Grid } from "@mui/material"
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Box, Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-const Product = () => {
-    const [product, setProduct] = useState([])
-    const { id } = useParams()
-
-    const fecthData = async () => {
-        try {
-            const response = await axios.get(`https://fakestoreapi.com/products/${id}`)
-            setProduct(response.data)
-        }
-        catch (error) {
-            alert("fecth Data error")
-        }
-
+function Detail() {
+  const { id } = useParams();
+  const [product, setProduct] = useState({});
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `https://fakestoreapi.com/products/${id}`
+      );
+      setProduct(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    useEffect(() => { fecthData() }, [])
+  console.log(product, "product");
 
-
-    return (
-        <div>Product
-
-
-            <Box sx={{}}>
-                <h1>{product.title}</h1>
-                <p>{product.description}</p>
-
-                <img src={product.image} alt={product.title} />
-                <p>Price: ${product.price}</p>
-                <Button variant="contained">Thêm vào giỏ hàng</Button>
-            </Box>
-
-
-        </div>
-
-
-    )
+  return (
+    <div>
+      Detail 11111111
+      <Link to="/">Home</Link>
+      <Link to="/products">Products</Link>
+      <Link to="/detail">Detail</Link>
+      <Box>
+        <h3>{product.title}</h3>
+        <p>{product.description}</p>
+        <p>Price: ${product.price}</p>
+        <img src={product.image} alt={product.title} />
+        <button>Thêm vào giỏ hàng</button>
+      </Box>
+    </div>
+  );
 }
-export default Product;
+export default Detail;
